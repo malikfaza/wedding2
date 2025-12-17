@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Wedding of Malik & Annisa</title>
+    <title>The Wedding of Malik & Annisa - Heavenly Sky</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -12,539 +12,569 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel+Decorative:wght@400;700&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 
-    <!-- SweetAlert2 (Pengganti Alert Bawaan) -->
+    <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <style>
-        /* --- TYPOGRAPHY --- */
-        .font-cormorant { font-family: 'Cormorant Garamond', serif; }
-        .font-vibes { font-family: 'Great Vibes', cursive; }
-        .font-montserrat { font-family: 'Montserrat', sans-serif; }
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sky: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc', // Soft Blue main
+                            500: '#0ea5e9',
+                            800: '#075985',
+                            900: '#0c4a6e', 
+                        },
+                        gold: {
+                            light: '#fbf5b7',
+                            DEFAULT: '#d4af37',
+                            dark: '#aa771c',
+                        },
+                        slate: {
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        }
+                    },
+                    fontFamily: {
+                        'cinzel': ['"Cinzel Decorative"', 'serif'],
+                        'vibes': ['"Great Vibes"', 'cursive'],
+                        'playfair': ['"Playfair Display"', 'serif'],
+                        'arabic': ['"Amiri"', 'serif'],
+                        'sans': ['"Outfit"', 'sans-serif'], // Modern clean sans
+                    },
+                    backgroundImage: {
+                        'islamic-pattern': "url('https://www.transparenttextures.com/patterns/arabesque.png')",
+                        'cloud-texture': "linear-gradient(180deg, rgba(255,255,255,0) 0%, #f0f9ff 100%)",
+                    },
+                    animation: {
+                        'spin-slow': 'spin 20s linear infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-soft': 'pulse 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
-        /* --- GLOBAL RESET & SCROLL LOCK --- */
+    <style>
+        /* --- GLOBAL & RESET --- */
         html, body {
-            margin: 0; padding: 0;
-            width: 100%;
-            max-width: 100%;
             overflow-x: hidden;
-            background-color: #0c0a09; /* Stone 950 */
-            -webkit-font-smoothing: antialiased;
-            color: #d6d3d1;
+            background-color: #f8fafc; /* Very light gray/white base */
+            color: #1e293b; /* Dark slate text for contrast */
+        }
+
+        body.modal-open { overflow: hidden; height: 100vh; position: fixed; width: 100%; }
+
+        /* --- ISLAMIC PATTERN BG --- */
+        .bg-pattern {
+            background-image: url("https://www.transparenttextures.com/patterns/arabesque.png");
+            opacity: 0.4;
+        }
+
+        /* --- TYPOGRAPHY EFFECTS --- */
+        .text-blue-gold-gradient {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0369a1 50%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- GATE ANIMATION (ISLAMIC ARCH OPENING) --- */
+        .gate-panel {
+            transition: transform 2.5s cubic-bezier(0.77, 0, 0.175, 1);
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            top: 0;
+            z-index: 50;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
         }
         
-        body.modal-open { 
-            overflow: hidden; 
-            height: 100vh;
-            position: fixed;
-            width: 100%;
+        .gate-left { 
+            left: 0; 
+            justify-content: flex-end;
+            border-right: 2px solid #e0f2fe;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%);
+        }
+        .gate-right { 
+            right: 0; 
+            justify-content: flex-start;
+            border-left: 2px solid #e0f2fe;
+            background: linear-gradient(225deg, #ffffff 0%, #f0f9ff 100%);
         }
 
-        /* --- CINEMATIC OPENING LAYERS --- */
-        .cinematic-layer {
-            position: absolute; inset: 0; width: 100%; height: 100%;
-            background-size: cover; background-position: center;
-            transition: all 2.5s cubic-bezier(0.22, 1, 0.36, 1);
-            will-change: transform, opacity;
+        /* Pattern on the gate */
+        .gate-panel::before {
+            content: ''; position: absolute; inset: 0;
+            background-image: url("https://www.transparenttextures.com/patterns/cubes.png");
+            opacity: 0.1;
         }
 
-        .layer-bg {
-            z-index: 10;
-            background-image: url('https://img.freepik.com/premium-photo/chibi-cartoon-muslim-wedding-couple-ai-generated-image_316488-7875.jpg');
-            filter: brightness(0.4) sepia(0.2);
-            transform: scale(1);
+        .is-open .gate-left { transform: translateX(-100%); }
+        .is-open .gate-right { transform: translateX(100%); }
+
+        /* --- SHAPES --- */
+        .dome-frame {
+            /* Islamic Dome Shape using clip-path or border-radius */
+            border-radius: 50% 50% 5px 5px / 60% 60% 5px 5px;
+        }
+        
+        .arch-window {
+            border-radius: 100px 100px 0 0;
         }
 
-        .layer-content {
-            z-index: 30;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            opacity: 1; transform: translateY(0);
-            transition: all 1.5s ease-out;
-        }
-
-        /* Dekorasi Daun/Bunga */
-        .layer-leaf-left {
-            z-index: 20;
-            background-image: url('https://png.pngtree.com/png-clipart/20220911/original/pngtree-tropical-leaves-on-the-side-png-image_8535232.png');
-            background-size: contain; background-repeat: no-repeat; background-position: -10vw center;
-            transform: translateX(0) scale(1.2);
-            filter: drop-shadow(10px 0 20px rgba(0,0,0,0.8));
-        }
-        .layer-leaf-right {
-            z-index: 20;
-            background-image: url('https://png.pngtree.com/png-clipart/20220911/original/pngtree-tropical-leaves-on-the-side-png-image_8535232.png');
-            background-size: contain; background-repeat: no-repeat; background-position: right -10vw center;
-            transform: scaleX(-1) translateX(0) scale(1.2);
-            filter: drop-shadow(-10px 0 20px rgba(0,0,0,0.8));
-        }
-
-        @media (max-width: 768px) {
-            .layer-leaf-left { background-position: -25vw center; }
-            .layer-leaf-right { background-position: right -25vw center; }
-        }
-
-        /* --- STATE: OPENED --- */
-        .is-open .layer-bg { transform: scale(1.2); filter: brightness(1); }
-        .is-open .layer-content { opacity: 0; transform: translateY(-50px) scale(0.9); pointer-events: none; }
-        .is-open .layer-leaf-left { transform: translateX(-150%) scale(2); opacity: 0; }
-        .is-open .layer-leaf-right { transform: scaleX(-1) translateX(-150%) scale(2); opacity: 0; }
-
-        /* --- ANIMATIONS --- */
-        @keyframes pulse-glow {
-            0%, 100% { filter: drop-shadow(0 0 5px rgba(251, 191, 36, 0.4)); transform: scale(1); }
-            50% { filter: drop-shadow(0 0 15px rgba(251, 191, 36, 0.8)); transform: scale(1.05); }
-        }
-        @keyframes float-particle {
-            0% { transform: translateY(0) translateX(0); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
-        }
-        @keyframes spin-slow {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .firefly {
-            position: absolute; width: 3px; height: 3px;
-            background-color: #fbbf24; border-radius: 50%;
-            box-shadow: 0 0 10px #fbbf24, 0 0 20px #fbbf24;
-            animation: float-particle linear infinite;
-            z-index: 15; pointer-events: none;
+        /* --- COMPONENTS --- */
+        .glass-light {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 10px 30px -5px rgba(14, 165, 233, 0.15); /* Soft blue shadow */
         }
 
         /* Custom Scrollbar */
-        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #1c1917; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #b45309; border-radius: 10px; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #7dd3fc; border-radius: 10px; }
+
     </style>
 </head>
-<body class="modal-open">
+<body class="modal-open antialiased selection:bg-sky-200 selection:text-sky-900">
 
-    <!-- AUDIO SOURCE - Added preload -->
+    <!-- WATERMARK CREDIT -->
+    <a href="https://wa.me/6285161141114?text=halo%20saya%20mau%20pesan%20undangan" target="_blank" class="fixed bottom-4 right-4 z-[999] opacity-60 hover:opacity-100 transition-opacity cursor-pointer no-underline bg-white/80 backdrop-blur px-3 py-1 rounded-full shadow-sm border border-sky-100">
+        <span class="font-sans text-[10px] text-sky-800 tracking-widest font-bold">@malikfaza</span>
+    </a>
+
+    <!-- AUDIO -->
     <audio id="bg-music" loop preload="auto">
+        <!-- Instrumental Islami / Piano Soft -->
         <source src="https://files.catbox.moe/1skpmc.mp3" type="audio/mp3">
     </audio>
 
-    <!-- === CINEMATIC COVER (OPENING) === -->
-    <div id="opening-sequence" class="fixed inset-0 w-full h-full z-50 overflow-hidden pointer-events-auto bg-stone-900">
-        <div class="cinematic-layer layer-bg"></div>
-        <div id="fireflies-container" class="absolute inset-0 w-full h-full z-10 overflow-hidden"></div>
-        <div class="cinematic-layer layer-leaf-left"></div>
-        <div class="cinematic-layer layer-leaf-right"></div>
+    <!-- BG PATTERN OVERLAY -->
+    <div class="fixed inset-0 z-[-1] bg-pattern pointer-events-none"></div>
+    <div class="fixed inset-0 z-[-2] bg-gradient-to-br from-white via-sky-50 to-white"></div>
 
-        <div class="absolute inset-0 z-30 flex flex-col items-center justify-center text-center px-4 layer-content">
-            <div class="mb-6 animate-[fade-in-up_1s_ease-out]">
-                <p class="text-amber-200 tracking-[0.5em] text-xs md:text-sm uppercase font-montserrat mb-2">The Wedding Of</p>
-                <div class="h-px w-24 bg-gradient-to-r from-transparent via-amber-400 to-transparent mx-auto"></div>
+    <!-- === OPENING GATE (ISLAMIC STYLE) === -->
+    <div id="opening-overlay" class="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden">
+        
+        <!-- Left Gate -->
+        <div class="gate-panel gate-left shadow-2xl">
+            <div class="absolute right-0 top-1/2 -translate-y-1/2 w-16 h-32 border-r-4 border-double border-gold/30 rounded-r-full opacity-50"></div>
+        </div>
+        
+        <!-- Right Gate -->
+        <div class="gate-panel gate-right shadow-2xl">
+             <div class="absolute left-0 top-1/2 -translate-y-1/2 w-16 h-32 border-l-4 border-double border-gold/30 rounded-l-full opacity-50"></div>
+        </div>
+
+        <!-- Center Content (Mandala) -->
+        <div id="opening-content" class="relative z-[60] flex flex-col items-center justify-center text-center p-8 transition-all duration-700">
+            
+            <div class="relative w-56 h-56 mb-8 flex items-center justify-center">
+                <!-- Rotating Mandala SVG -->
+                <svg class="absolute inset-0 w-full h-full text-sky-200 animate-spin-slow opacity-60" viewBox="0 0 100 100" fill="currentColor">
+                    <path d="M50 0 L55 35 L90 30 L60 55 L90 80 L55 75 L50 100 L45 75 L10 80 L40 55 L10 30 L45 35 Z" /> <!-- Simplified Star Shape placeholder for Mandala -->
+                    <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 4"/>
+                </svg>
+                
+                <div class="bg-white/90 backdrop-blur-md rounded-full w-40 h-40 flex flex-col items-center justify-center shadow-[0_0_40px_rgba(125,211,252,0.4)] border border-sky-100 z-10">
+                    <span class="font-cinzel text-4xl text-sky-600">M</span>
+                    <span class="font-vibes text-2xl text-gold mx-1">&</span>
+                    <span class="font-cinzel text-4xl text-sky-600">A</span>
+                </div>
             </div>
-            <h1 class="font-vibes text-6xl md:text-9xl text-amber-100 drop-shadow-2xl mb-8 leading-tight" style="text-shadow: 0 0 30px rgba(251, 191, 36, 0.3);">
-                Malik & Annisa
-            </h1>
-            <div class="backdrop-blur-sm bg-black/20 p-6 rounded-2xl border border-white/10 shadow-2xl transform transition-all hover:bg-black/30">
-                <p class="text-stone-300 font-cormorant italic text-lg mb-6">"Kepada Yth. Bapak/Ibu/Saudara/i"</p>
-                <button onclick="openInvitation()" class="group relative px-8 py-3 bg-gradient-to-r from-amber-700 to-amber-900 text-amber-50 rounded-full overflow-hidden shadow-[0_0_20px_rgba(245,158,11,0.5)] transition-all duration-500 hover:scale-105 hover:shadow-[0_0_40px_rgba(245,158,11,0.8)] cursor-pointer">
-                    <div class="absolute inset-0 bg-white/20 -translate-x-full group-hover:animate-[shimmer_1s_infinite]"></div>
-                    <span class="relative font-montserrat text-sm font-semibold tracking-widest flex items-center gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="animate-[pulse-glow_2s_infinite]" viewBox="0 0 16 16"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/></svg>
-                        BUKA UNDANGAN
-                    </span>
-                </button>
-            </div>
+
+            <h2 class="font-sans text-xs text-sky-800 tracking-[0.3em] uppercase mb-6 font-semibold">The Wedding Celebration</h2>
+            
+            <button onclick="openInvitation()" class="group relative px-8 py-3 bg-white overflow-hidden rounded-full transition-all duration-300 cursor-pointer shadow-lg hover:shadow-sky-200 border border-sky-100">
+                <span class="relative z-10 font-sans text-xs font-bold tracking-[0.2em] text-sky-600 group-hover:text-sky-800 transition-colors uppercase flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M3 19a2 2 0 002 2h14a2 2 0 002-2M3 19l6.75-4.5M21 19l-6.75-4.5M3 10l6.75 4.5M21 10l-6.75 4.5m0 0l-1.14.76a2 2 0 01-2.22 0l-1.14-.76"/></svg>
+                    Buka Undangan
+                </span>
+            </button>
         </div>
     </div>
 
     <!-- === MAIN CONTENT === -->
-    <main id="main-content" class="opacity-0 transition-opacity duration-[2000ms] ease-in-out relative z-10 bg-stone-100 w-full overflow-x-hidden">
+    <main id="main-content" class="relative w-full opacity-0 transition-opacity duration-[2000ms]">
         
-        <!-- Music Toggle Button -->
-        <button onclick="toggleMusic()" class="fixed top-5 right-5 z-[60] p-3 rounded-full bg-black/50 backdrop-blur-md border border-amber-500/50 text-amber-400 shadow-lg hover:scale-110 transition-transform cursor-pointer animate-[spin-slow_10s_linear_infinite]">
-            <svg id="icon-music" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
-        </button>
+        <!-- Music Control (Dark Icon for Light BG) -->
+        <div class="fixed top-5 right-5 z-[60]">
+             <button onclick="toggleMusic()" class="w-10 h-10 rounded-full border border-sky-200 bg-white/80 backdrop-blur flex items-center justify-center text-sky-600 shadow-lg hover:bg-sky-50 transition-all duration-300">
+                <svg id="icon-music" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="animate-spin-slow"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+            </button>
+        </div>
 
         <!-- HERO SECTION -->
-        <section id="home" class="min-h-screen relative flex flex-col justify-center items-center text-center px-4 overflow-hidden w-full">
-            <div class="absolute inset-0 bg-[url('https://img.freepik.com/premium-photo/chibi-cartoon-muslim-wedding-couple-ai-generated-image_316488-7875.jpg')] bg-cover bg-center">
-                <div class="absolute inset-0 bg-stone-100/80 mix-blend-overlay"></div>
-                <div class="absolute inset-0 bg-gradient-to-t from-stone-100 via-white/50 to-stone-100"></div>
-            </div>
+        <section class="min-h-screen flex flex-col items-center justify-center relative px-6 overflow-hidden pt-10">
+            <!-- Decorative Top Cloud -->
+            <div class="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-sky-100 to-transparent opacity-50"></div>
             
-            <div class="relative z-10 w-full" data-aos="zoom-out" data-aos-duration="2000">
-                <div class="relative w-64 h-64 md:w-96 md:h-96 mx-auto mb-8">
-                    <div class="absolute inset-0 border-[1px] border-amber-600 rounded-full scale-105 opacity-50 animate-[spin-slow_20s_linear_infinite]"></div>
-                    <div class="absolute inset-0 border-[1px] border-amber-600 rounded-full scale-110 opacity-30 animate-[spin-slow_15s_linear_infinite_reverse]"></div>
-                    <div class="w-full h-full rounded-full overflow-hidden border-4 border-amber-700 shadow-2xl relative">
-                         <img src="https://img.freepik.com/premium-photo/chibi-cartoon-muslim-wedding-couple-ai-generated-image_316488-7875.jpg" alt="Couple" class="w-full h-full object-cover transform hover:scale-110 transition-transform duration-1000">
-                    </div>
+            <div class="relative z-10 text-center w-full max-w-2xl" id="hero-content">
+                <div data-aos="fade-down" data-aos-duration="1500" class="mb-4">
+                     <img src="https://upload.wikimedia.org/wikipedia/commons/2/27/Basmala.svg" alt="Bismillah" class="h-12 mx-auto mb-4 opacity-80">
                 </div>
-                <div class="space-y-2 px-2">
-                    <p class="font-montserrat text-amber-800 tracking-[0.3em] text-sm font-semibold" data-aos="fade-up">THE WEDDING OF</p>
-                    <h1 class="font-cormorant text-5xl md:text-8xl text-stone-800 font-bold leading-tight" data-aos="fade-up" data-aos-delay="200">
-                        Malik <span class="font-vibes text-amber-600 font-normal">&</span> Annisa
-                    </h1>
-                    <div class="h-px w-32 bg-amber-600 mx-auto my-4" data-aos="zoom-in"></div>
-                    <p class="font-cormorant text-2xl text-stone-700 italic font-semibold" data-aos="fade-up" data-aos-delay="400">Selasa, 10 Maret 2026</p>
-                    
-                    <div id="countdown-wrapper" class="flex justify-center gap-4 mt-8" data-aos="fade-up" data-aos-delay="600"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- COUPLE PROFILE -->
-        <section class="py-20 px-6 bg-stone-50 relative w-full overflow-hidden">
-            <div class="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-stone-100 to-transparent"></div>
-            
-            <div class="max-w-4xl mx-auto text-center relative z-10" data-aos="fade-up">
-                <p class="font-montserrat text-amber-700 text-xs tracking-widest uppercase mb-4">Assalamualaikum Warahmatullahi Wabarakatuh</p>
-                <p class="font-cormorant text-stone-600 text-lg mb-12 max-w-2xl mx-auto leading-relaxed">
-                    Dengan memohon Rahmat dan Ridho Allah SWT, kami bermaksud menyelenggarakan pernikahan putra-putri kami:
-                </p>
-
-                <div class="grid md:grid-cols-2 gap-12 items-center">
-                    <!-- PRIA -->
-                    <div class="text-center group" data-aos="fade-right">
-                        <div class="relative w-56 h-72 mx-auto mb-6 overflow-hidden rounded-[100px_100px_20px_20px] shadow-xl border-2 border-amber-600/30">
-                            <img src="https://img.freepik.com/premium-vector/premium-highquality-cartoon-design-part-11_768745-426.jpg?semt=ais_hybrid&w=740&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                        </div>
-                        <h3 class="font-cormorant text-3xl font-bold text-stone-800">Malik Faza</h3>
-                        <p class="font-montserrat text-stone-500 text-xs mt-2 uppercase tracking-wide">Putra Ke-4</p>
-                        <p class="font-cormorant text-amber-700 text-lg mt-1">Bpk. Umar & Ibu Nunung</p>
-                    </div>
-
-                    <!-- WANITA -->
-                    <div class="text-center group" data-aos="fade-left">
-                        <div class="relative w-56 h-72 mx-auto mb-6 overflow-hidden rounded-[100px_100px_20px_20px] shadow-xl border-2 border-amber-600/30">
-                            <img src="https://img.freepik.com/premium-vector/chibi-cute-kawaii-character-cartoon-illustration-teacher-muslim-hijab-girl-holding-book_161819-762.jpg?w=360" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                        </div>
-                        <h3 class="font-cormorant text-3xl font-bold text-stone-800">Annisa Sholiha</h3>
-                        <p class="font-montserrat text-stone-500 text-xs mt-2 uppercase tracking-wide">Putri Ke-2</p>
-                        <p class="font-cormorant text-amber-700 text-lg mt-1">Bpk. Husain & Ibu Saadah</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ACARA / EVENTS -->
-        <section id="event" class="py-24 bg-[#1c1917] text-stone-200 relative text-center w-full overflow-hidden">
-            <div class="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
-            
-            <div class="container mx-auto px-4 relative z-10">
-                <h2 class="font-vibes text-6xl text-amber-500 mb-16" data-aos="fade-up">Rangkaian Acara</h2>
                 
-                <div class="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                    <!-- AKAD -->
-                    <div class="bg-stone-800/80 backdrop-blur-sm p-10 rounded-xl border border-stone-600 hover:border-amber-600 transition-all duration-300 transform hover:-translate-y-2" data-aos="flip-left">
-                        <div class="w-16 h-16 bg-amber-900/50 rounded-full flex items-center justify-center mx-auto mb-6 text-amber-400">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                        </div>
-                        <h3 class="font-cormorant text-4xl text-amber-100 mb-2">Akad Nikah</h3>
-                        <p class="font-montserrat text-amber-500 text-xs font-bold tracking-widest uppercase mb-6">Selasa, 10 Maret 2026</p>
-                        
-                        <div class="font-montserrat text-sm tracking-wide space-y-3 text-stone-300">
-                            <p class="text-xl font-semibold">08.00 WIB - Selesai</p>
-                            <div class="h-px w-20 bg-stone-600 mx-auto"></div>
-                            <p>Bertempat di Kediaman Mempelai Wanita</p>
-                            <p class="text-xs text-stone-400">Ds. Kertasari, Kec. Kertajati, Kab. Majalengka</p>
-                        </div>
-                    </div>
+                <p class="font-sans text-sky-700 tracking-[0.2em] text-[11px] uppercase mb-6">Walimatul Ursy</p>
 
-                    <!-- RESEPSI -->
-                    <div class="bg-stone-800/80 backdrop-blur-sm p-10 rounded-xl border border-stone-600 hover:border-amber-600 transition-all duration-300 transform hover:-translate-y-2" data-aos="flip-right">
-                        <div class="w-16 h-16 bg-amber-900/50 rounded-full flex items-center justify-center mx-auto mb-6 text-amber-400">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                        </div>
-                        <h3 class="font-cormorant text-4xl text-amber-100 mb-2">Resepsi</h3>
-                        <p class="font-montserrat text-amber-500 text-xs font-bold tracking-widest uppercase mb-6">Selasa, 10 Maret 2026</p>
-                        
-                        <div class="font-montserrat text-sm tracking-wide space-y-3 text-stone-300">
-                            <p class="text-xl font-semibold">11.00 WIB - Selesai</p>
-                            <div class="h-px w-20 bg-stone-600 mx-auto"></div>
-                            <p>Bertempat di Kediaman Mempelai Wanita</p>
-                            <p class="text-xs text-stone-400">Ds. Kertasari, Kec. Kertajati, Kab. Majalengka</p>
-                        </div>
-                    </div>
+                <div class="relative py-10 animate-float">
+                     <!-- Islamic Arch Outline behind text -->
+                     <div class="absolute inset-0 border-2 border-sky-100 rounded-t-[10rem] -z-10 scale-110"></div>
+                     
+                    <h1 class="font-cinzel text-5xl md:text-7xl text-sky-600 leading-none drop-shadow-sm" data-aos="zoom-in" data-aos-duration="2000">
+                        Malik <span class="font-vibes text-4xl text-gold font-normal mx-2">&</span> Annisa
+                    </h1>
                 </div>
 
-                <a href="https://www.google.com/maps/search/?api=1&query=Desa+Kertasari+Kecamatan+Kertajati+Majalengka" target="_blank" class="inline-flex items-center gap-2 mt-12 px-8 py-3 border border-amber-500 text-amber-500 rounded-full hover:bg-amber-600 hover:text-white transition-all font-bold tracking-wider text-sm cursor-pointer" data-aos="zoom-in">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                    LIHAT LOKASI DI GOOGLE MAPS
-                </a>
+                <div class="mt-6 space-y-3" data-aos="fade-up" data-aos-delay="500">
+                    <div class="inline-flex items-center gap-4 py-2 px-6 bg-white/60 backdrop-blur rounded-full border border-sky-100 shadow-sm">
+                        <span class="font-playfair text-xl text-slate-800 font-bold">Selasa, 10 Maret 2026</span>
+                    </div>
+                    <p class="font-sans text-xs text-sky-600 tracking-widest uppercase font-semibold">Majalengka, Jawa Barat</p>
+                </div>
+
+                <!-- Boxed Countdown (Light Theme) -->
+                <div id="countdown" class="flex flex-wrap justify-center gap-4 mt-12" data-aos="fade-up" data-aos-delay="800">
+                    <!-- JS Injected -->
+                </div>
+            </div>
+            
+            <!-- Bottom Cloud Decoration -->
+             <div class="absolute bottom-0 w-full">
+                 <svg viewBox="0 0 1440 320" class="w-full text-white fill-current opacity-80">
+                    <path fill-opacity="1" d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,261.3C960,256,1056,224,1152,197.3C1248,171,1344,149,1392,138.7L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+                </svg>
+             </div>
+        </section>
+
+        <!-- COUPLE (DOME DESIGN) -->
+        <section class="py-24 px-4 relative bg-white">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <h2 class="font-cinzel text-3xl text-sky-600 mb-4">Mempelai</h2>
+                    <p class="font-arabic text-xl text-slate-600 leading-loose max-w-xl mx-auto px-4 dir-rtl">
+                        وَمِنْ آيَاتِهِ أَنْ خَلَقَ لَكُم مِّنْ أَنفُسِكُمْ أَزْوَاجًا لِّتَسْكُنُوا إِلَيْهَا
+                    </p>
+                    <p class="font-sans text-xs text-sky-400 mt-2 tracking-wider">(QS. Ar-Rum: 21)</p>
+                </div>
+
+                <!-- Couple Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center relative">
+                    <!-- Groom -->
+                    <div class="text-center group" data-aos="fade-up">
+                        <div class="relative w-64 h-80 mx-auto mb-6">
+                            <!-- Dome Frame -->
+                            <div class="absolute inset-0 border-2 border-sky-100 dome-frame translate-x-3 translate-y-3 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0 bg-sky-50"></div>
+                            <div class="absolute inset-0 dome-frame shadow-xl overflow-hidden bg-white z-10">
+                                <img src="https://img.freepik.com/premium-vector/premium-highquality-cartoon-design-part-11_768745-426.jpg?semt=ais_hybrid&w=740&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Groom">
+                            </div>
+                        </div>
+                        <h3 class="font-playfair text-2xl text-slate-800 font-bold mb-1">Malik Faza</h3>
+                        <p class="font-sans text-[11px] text-sky-600 uppercase tracking-widest font-semibold">Putra Bpk. Umar & Ibu Nunung</p>
+                    </div>
+
+                    <!-- Bride -->
+                    <div class="text-center group" data-aos="fade-up" data-aos-delay="100">
+                         <div class="relative w-64 h-80 mx-auto mb-6">
+                             <!-- Dome Frame -->
+                            <div class="absolute inset-0 border-2 border-sky-100 dome-frame -translate-x-3 translate-y-3 transition-transform duration-500 group-hover:translate-x-0 group-hover:translate-y-0 bg-sky-50"></div>
+                            <div class="absolute inset-0 dome-frame shadow-xl overflow-hidden bg-white z-10">
+                                <img src="https://img.freepik.com/premium-vector/chibi-cute-kawaii-character-cartoon-illustration-teacher-muslim-hijab-girl-holding-book_161819-762.jpg?w=360" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt="Bride">
+                            </div>
+                        </div>
+                        <h3 class="font-playfair text-2xl text-slate-800 font-bold mb-1">Annisa Sholiha</h3>
+                        <p class="font-sans text-[11px] text-sky-600 uppercase tracking-widest font-semibold">Putri Bpk. Husain & Ibu Saadah</p>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- GALERI (UPDATED WITH NEW IMAGE) -->
-        <section class="py-20 px-4 bg-stone-100 w-full overflow-hidden">
-            <div class="container mx-auto max-w-5xl">
-                <h2 class="font-cormorant text-5xl text-amber-800 mb-12 text-center" data-aos="fade-up">Momen Bahagia</h2>
+        <!-- EVENT INFO (CLEAN CARDS) -->
+        <section class="py-20 relative bg-sky-50/50">
+            <div class="max-w-4xl mx-auto px-6 relative">
+                <div class="text-center mb-16" data-aos="fade-up">
+                    <span class="font-cinzel text-3xl text-sky-600 border-b-2 border-gold/50 pb-2">Rangkaian Acara</span>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8">
+                    
+                    <!-- Akad -->
+                    <div class="glass-light p-8 rounded-t-[50px] rounded-b-xl text-center hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden" data-aos="fade-up">
+                        <div class="absolute top-0 left-0 w-full h-2 bg-sky-300"></div>
+                        <h3 class="font-cinzel text-2xl text-slate-800 mb-4">Akad Nikah</h3>
+                        
+                        <div class="flex justify-center items-center gap-2 mb-6">
+                            <span class="w-12 h-px bg-slate-300"></span>
+                            <span class="text-gold text-xl">✦</span>
+                            <span class="w-12 h-px bg-slate-300"></span>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <p class="font-bold text-sky-700 text-sm uppercase tracking-wider">Waktu</p>
+                                <p class="font-playfair text-slate-600 text-lg">08:00 WIB - Selesai</p>
+                            </div>
+                            <div>
+                                <p class="font-bold text-sky-700 text-sm uppercase tracking-wider">Lokasi</p>
+                                <p class="font-sans text-slate-600 text-sm">Kediaman Mempelai Wanita<br>Ds. Kertasari, Kec. Kertajati</p>
+                            </div>
+                            <a href="https://maps.google.com" target="_blank" class="inline-block mt-2 px-6 py-2 bg-sky-100 text-sky-700 rounded-full text-xs font-bold hover:bg-sky-200 transition-colors">Google Maps</a>
+                        </div>
+                    </div>
+
+                    <!-- Resepsi -->
+                    <div class="glass-light p-8 rounded-t-[50px] rounded-b-xl text-center hover:-translate-y-2 transition-transform duration-300 relative overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                        <div class="absolute top-0 left-0 w-full h-2 bg-gold"></div>
+                        <h3 class="font-cinzel text-2xl text-slate-800 mb-4">Resepsi</h3>
+                        
+                        <div class="flex justify-center items-center gap-2 mb-6">
+                            <span class="w-12 h-px bg-slate-300"></span>
+                            <span class="text-gold text-xl">✦</span>
+                            <span class="w-12 h-px bg-slate-300"></span>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div>
+                                <p class="font-bold text-sky-700 text-sm uppercase tracking-wider">Waktu</p>
+                                <p class="font-playfair text-slate-600 text-lg">11:00 WIB - Selesai</p>
+                            </div>
+                            <div>
+                                <p class="font-bold text-sky-700 text-sm uppercase tracking-wider">Lokasi</p>
+                                <p class="font-sans text-slate-600 text-sm">Kediaman Mempelai Wanita<br>Ds. Kertasari, Kec. Kertajati</p>
+                            </div>
+                            <a href="https://maps.google.com" target="_blank" class="inline-block mt-2 px-6 py-2 bg-sky-100 text-sky-700 rounded-full text-xs font-bold hover:bg-sky-200 transition-colors">Google Maps</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERY -->
+        <section class="py-24 relative overflow-hidden bg-white">
+             <div class="max-w-6xl mx-auto px-4">
+                <div class="text-center mb-12">
+                     <span class="font-vibes text-4xl text-sky-400">Sweet Moments</span>
+                </div>
+                
+                <!-- Masonry Grid with Soft Radius -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[200px]">
                     <!-- Large item -->
-                    <div class="col-span-2 row-span-2 rounded-xl overflow-hidden shadow-lg group relative" data-aos="fade-up">
-                        <img src="https://img.freepik.com/premium-photo/chibi-cartoon-muslim-wedding-couple-ai-generated-image_316488-7875.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000">
+                    <div class="col-span-2 row-span-2 relative overflow-hidden group cursor-pointer rounded-3xl shadow-lg" data-aos="zoom-in">
+                        <img src="https://img.freepik.com/premium-photo/chibi-cartoon-muslim-wedding-couple-ai-generated-image_316488-7875.jpg" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Couple 1">
+                        <div class="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors"></div>
                     </div>
+                    
                     <!-- Small items -->
-                    <div class="col-span-1 row-span-1 rounded-xl overflow-hidden shadow-lg group" data-aos="fade-up" data-aos-delay="100">
-                        <img src="https://img.freepik.com/premium-vector/premium-highquality-cartoon-design-part-11_768745-426.jpg?semt=ais_hybrid&w=740&q=80" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="col-span-1 row-span-2 relative overflow-hidden group cursor-pointer rounded-3xl shadow-lg" data-aos="zoom-in" data-aos-delay="100">
+                        <img src="https://img.freepik.com/premium-vector/premium-highquality-cartoon-design-part-11_768745-426.jpg?semt=ais_hybrid&w=740&q=80" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Couple 2">
                     </div>
-                    <div class="col-span-1 row-span-1 rounded-xl overflow-hidden shadow-lg group" data-aos="fade-up" data-aos-delay="200">
-                        <img src="https://img.freepik.com/premium-vector/chibi-cute-kawaii-character-cartoon-illustration-teacher-muslim-hijab-girl-holding-book_161819-762.jpg?w=360" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    
+                    <div class="col-span-1 row-span-1 relative overflow-hidden group cursor-pointer rounded-3xl shadow-lg" data-aos="zoom-in" data-aos-delay="200">
+                        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?q=80&w=1000" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Decoration">
                     </div>
-                    <!-- Wide item - REPLACED UNSPLASH IMAGE -->
-                    <div class="col-span-2 row-span-1 rounded-xl overflow-hidden shadow-lg group" data-aos="fade-up" data-aos-delay="300">
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIlsvIfyQEaNKKKWC2AMZZgPSCVNhroVJ5Ag&s" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    
+                    <div class="col-span-1 row-span-1 relative overflow-hidden group cursor-pointer rounded-3xl shadow-lg" data-aos="zoom-in" data-aos-delay="300">
+                        <img src="https://img.freepik.com/premium-vector/chibi-cute-kawaii-character-cartoon-illustration-teacher-muslim-hijab-girl-holding-book_161819-762.jpg?w=360" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" alt="Bride 2">
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- GIFT -->
-        <section class="py-20 px-4 bg-white text-center w-full overflow-hidden">
-            <div class="max-w-xl mx-auto" data-aos="fade-up">
-                <h2 class="font-cormorant text-4xl text-amber-800 mb-6 font-bold">Wedding Gift</h2>
-                <p class="font-montserrat text-stone-600 text-sm mb-10 leading-relaxed italic">
-                    "Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Dan jika memberi adalah ungkapan tanda kasih Anda, Anda dapat memberi kado secara cashless."
-                </p>
+        <!-- GIFT & RSVP -->
+        <section class="py-24 px-4 bg-gradient-to-b from-sky-50 to-white">
+            <div class="max-w-5xl mx-auto grid md:grid-cols-2 gap-12">
                 
-                <!-- DANA -->
-                <div class="bg-stone-50 p-6 rounded-xl shadow-md border border-stone-200 mb-4 flex flex-col md:flex-row justify-between items-center gap-4 relative overflow-hidden">
-                    <div class="absolute left-0 top-0 bottom-0 w-2 bg-blue-500"></div>
-                    <div class="text-left w-full">
-                        <div class="flex items-center gap-2 mb-1">
-                            <span class="font-bold text-xl text-stone-800 tracking-tighter">DANA</span>
-                        </div>
-                        <p class="font-mono text-xl text-stone-700 tracking-wider">0851 6114 1114</p>
-                        <p class="text-sm text-stone-500 mt-1">a.n Malik Faza</p>
-                    </div>
-                    <button onclick="copyToClipboard('085161141114', 'DANA')" class="w-full md:w-auto px-6 py-2 bg-stone-800 text-white rounded-lg hover:bg-stone-700 transition-colors text-xs font-bold tracking-widest cursor-pointer">
-                        SALIN
-                    </button>
-                </div>
-
-                <!-- SEABANK -->
-                <div class="bg-stone-50 p-6 rounded-xl shadow-md border border-stone-200 flex flex-col md:flex-row justify-between items-center gap-4 relative overflow-hidden">
-                    <div class="absolute left-0 top-0 bottom-0 w-2 bg-orange-500"></div>
-                    <div class="text-left w-full">
-                        <div class="flex items-center gap-2 mb-1">
-                            <span class="font-bold text-xl text-stone-800 tracking-tighter">SeaBank</span>
-                        </div>
-                        <p class="font-mono text-xl text-stone-700 tracking-wider">9016 4283 9446</p>
-                        <p class="text-sm text-stone-500 mt-1">a.n Annisa Sholiha</p>
-                    </div>
-                    <button onclick="copyToClipboard('901642839446', 'SeaBank')" class="w-full md:w-auto px-6 py-2 bg-stone-800 text-white rounded-lg hover:bg-stone-700 transition-colors text-xs font-bold tracking-widest cursor-pointer">
-                        SALIN
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- RSVP & REALTIME WISHES -->
-        <section id="rsvp" class="py-24 relative bg-stone-900 w-full overflow-hidden">
-            <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1511285560982-1351cdeb9821?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80')] bg-cover bg-center opacity-30"></div>
-            <div class="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-900/90 to-stone-950"></div>
-            
-            <div class="container mx-auto px-4 relative z-10 max-w-4xl text-stone-200">
-                <div class="text-center mb-12" data-aos="fade-up">
-                    <h2 class="font-vibes text-6xl text-amber-500 mb-4">RSVP & Ucapan</h2>
-                    <p class="font-montserrat text-sm text-stone-400">Kehadiran Anda adalah kebahagiaan bagi kami</p>
-                </div>
-
-                <div class="grid md:grid-cols-2 gap-12">
-                    <!-- Form RSVP -->
-                    <div class="bg-black/40 p-8 rounded-xl border border-stone-700 backdrop-blur-md shadow-2xl" data-aos="fade-right">
-                        <form id="rsvp-form" onsubmit="sendToWhatsApp(event)" class="space-y-5">
-                            <div>
-                                <label class="block font-montserrat text-[10px] font-bold text-amber-500 uppercase tracking-widest mb-2">Nama Lengkap</label>
-                                <input type="text" id="name" required class="w-full bg-stone-800/50 border border-stone-600 rounded-lg p-3 text-stone-200 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors placeholder-stone-600" placeholder="Nama Anda">
+                <!-- Digital Envelope -->
+                <div data-aos="fade-right">
+                    <h2 class="font-cinzel text-3xl text-sky-800 mb-6 pb-2 inline-block">Wedding Gift</h2>
+                    <p class="font-sans text-slate-500 mb-8 text-sm leading-relaxed">
+                        Kehadiran dan doa restu Anda adalah kado terindah bagi kami. Namun, jika Anda ingin memberikan tanda kasih, kami menyediakan dompet digital.
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <!-- Card: DANA (Light Theme) -->
+                        <div class="relative bg-white p-6 rounded-2xl border border-sky-100 shadow-md group overflow-hidden">
+                            <div class="absolute right-0 top-0 w-24 h-24 bg-sky-50 rounded-bl-full transition-colors"></div>
+                            
+                            <div class="flex justify-between items-start mb-6 relative z-10">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/1200px-Logo_dana_blue.svg.png" class="h-6" alt="DANA">
                             </div>
                             
-                            <div>
-                                <label class="block font-montserrat text-[10px] font-bold text-amber-500 uppercase tracking-widest mb-2">Konfirmasi Kehadiran</label>
-                                <select id="status" class="w-full bg-stone-800/50 border border-stone-600 rounded-lg p-3 text-stone-200 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors">
-                                    <option value="Hadir">Saya akan hadir</option>
-                                    <option value="Tidak Hadir">Maaf, saya tidak bisa hadir</option>
-                                    <option value="Masih Ragu">Masih tentatif</option>
-                                </select>
+                            <div class="flex justify-between items-end relative z-10">
+                                <div>
+                                    <p class="font-mono text-xl text-slate-800 tracking-widest mb-1">0851 6114 1114</p>
+                                    <p class="font-sans text-xs text-slate-400 uppercase tracking-widest">a.n Malik Faza</p>
+                                </div>
+                                <button onclick="copyToClipboard('085161141114', 'DANA')" class="text-sky-500 hover:text-sky-700 transition-colors cursor-pointer bg-sky-50 p-2 rounded-lg">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                </button>
                             </div>
+                        </div>
 
-                            <div>
-                                <label class="block font-montserrat text-[10px] font-bold text-amber-500 uppercase tracking-widest mb-2">Jumlah Tamu</label>
-                                <select id="pax" class="w-full bg-stone-800/50 border border-stone-600 rounded-lg p-3 text-stone-200 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors">
+                         <!-- Card: SeaBank (Light Theme) -->
+                         <div class="relative bg-white p-6 rounded-2xl border border-orange-100 shadow-md group overflow-hidden">
+                             <div class="absolute right-0 top-0 w-24 h-24 bg-orange-50 rounded-bl-full transition-colors"></div>
+                            <div class="flex justify-between items-start mb-6 relative z-10">
+                                <span class="text-orange-600 font-bold italic tracking-tighter text-xl">SeaBank</span>
+                            </div>
+                            
+                             <div class="flex justify-between items-end relative z-10">
+                                <div>
+                                    <p class="font-mono text-xl text-slate-800 tracking-widest mb-1">9016 4283 9446</p>
+                                    <p class="font-sans text-xs text-slate-400 uppercase tracking-widest">a.n Annisa Sholiha</p>
+                                </div>
+                                <button onclick="copyToClipboard('901642839446', 'SeaBank')" class="text-orange-500 hover:text-orange-700 transition-colors cursor-pointer bg-orange-50 p-2 rounded-lg">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RSVP Form -->
+                <div class="bg-white p-8 rounded-3xl border border-sky-100 shadow-xl" data-aos="fade-left">
+                    <h2 class="font-cinzel text-3xl text-sky-800 mb-2">RSVP</h2>
+                    <p class="text-slate-400 text-xs mb-8 uppercase tracking-widest">Konfirmasi Kehadiran</p>
+
+                    <form onsubmit="sendToWhatsApp(event)" class="space-y-5">
+                        <div class="relative">
+                            <input type="text" id="name" class="peer w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-slate-700 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-200 transition-all placeholder-transparent" placeholder="Name" required>
+                            <label for="name" class="absolute left-2 -top-2.5 bg-white px-2 text-sky-600 text-xs font-bold transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-400 peer-placeholder-shown:top-3.5 peer-placeholder-shown:left-4 peer-focus:-top-2.5 peer-focus:left-2 peer-focus:text-sky-600 peer-focus:text-xs">Nama Lengkap</label>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="relative">
+                                <select id="status" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-slate-700 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-200 outline-none text-sm appearance-none">
+                                    <option value="Hadir">Hadir</option>
+                                    <option value="Tidak Hadir">Tidak Hadir</option>
+                                    <option value="Ragu">Masih Ragu</option>
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                                    <svg class="fill-current h-4 w-4" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                                </div>
+                            </div>
+                            <div class="relative">
+                                <select id="pax" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-slate-700 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-200 outline-none text-sm appearance-none">
                                     <option value="1">1 Orang</option>
                                     <option value="2">2 Orang</option>
                                 </select>
-                            </div>
-
-                            <div>
-                                <label class="block font-montserrat text-[10px] font-bold text-amber-500 uppercase tracking-widest mb-2">Ucapan & Doa</label>
-                                <textarea id="message" required rows="3" class="w-full bg-stone-800/50 border border-stone-600 rounded-lg p-3 text-stone-200 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors placeholder-stone-600" placeholder="Tuliskan ucapan selamat..."></textarea>
-                            </div>
-
-                            <button type="submit" class="w-full py-3 bg-amber-700 hover:bg-amber-600 text-white font-bold rounded-lg transition-all transform active:scale-95 shadow-lg flex items-center justify-center gap-2 cursor-pointer mt-4">
-                                <span>Kirim via WhatsApp</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                                </svg>
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Ucapan Terbaru -->
-                    <div class="relative" data-aos="fade-left">
-                        <h3 class="font-cormorant text-2xl text-amber-200 mb-6 border-b border-stone-700 pb-2">Ucapan Terbaru</h3>
-                        <div id="wishes-container" class="space-y-4 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
-                            <!-- Dummy Data Initial -->
-                            <div class="bg-stone-800/60 p-4 rounded-lg border-l-2 border-amber-600">
-                                <div class="flex justify-between items-start mb-2">
-                                    <h4 class="font-bold text-amber-500 font-montserrat text-sm">Rizky & Sarah</h4>
-                                    <span class="text-[10px] bg-green-900/50 text-green-300 px-2 py-1 rounded border border-green-800">Hadir</span>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-500">
+                                    <svg class="fill-current h-4 w-4" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
                                 </div>
-                                <p class="text-sm text-stone-300 italic">"Selamat ya Malik & Annisa! Semoga menjadi keluarga sakinah mawaddah warahmah."</p>
-                                <p class="text-[10px] text-stone-500 mt-2 text-right">Baru saja</p>
-                            </div>
-
-                            <div class="bg-stone-800/60 p-4 rounded-lg border-l-2 border-stone-600">
-                                <div class="flex justify-between items-start mb-2">
-                                    <h4 class="font-bold text-amber-500 font-montserrat text-sm">Pak Bambang</h4>
-                                    <span class="text-[10px] bg-red-900/50 text-red-300 px-2 py-1 rounded border border-red-800">Tidak Hadir</span>
-                                </div>
-                                <p class="text-sm text-stone-300 italic">"Mohon maaf bapak tidak bisa hadir. Doa terbaik untuk kalian berdua."</p>
-                                <p class="text-[10px] text-stone-500 mt-2 text-right">5 menit yang lalu</p>
                             </div>
                         </div>
-                    </div>
+
+                        <div class="relative">
+                            <textarea id="message" rows="3" class="peer w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-slate-700 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-200 transition-all placeholder-transparent" placeholder="Message" required></textarea>
+                            <label for="message" class="absolute left-2 -top-2.5 bg-white px-2 text-sky-600 text-xs font-bold transition-all peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-400 peer-placeholder-shown:top-3.5 peer-placeholder-shown:left-4 peer-focus:-top-2.5 peer-focus:left-2 peer-focus:text-sky-600 peer-focus:text-xs">Ucapan & Doa</label>
+                        </div>
+
+                        <button type="submit" class="w-full py-3 bg-gradient-to-r from-sky-500 to-sky-600 text-white font-bold rounded-lg shadow-lg hover:shadow-sky-200 hover:-translate-y-1 transition-all duration-300 cursor-pointer tracking-widest uppercase text-sm">
+                            Kirim Pesan
+                        </button>
+                    </form>
                 </div>
+
             </div>
         </section>
 
         <!-- FOOTER -->
-        <footer class="bg-stone-950 text-stone-600 py-10 text-center font-montserrat text-[10px] tracking-widest uppercase">
-            <div class="flex justify-center items-center gap-2 mb-4">
-                 <div class="h-px w-8 bg-stone-700"></div>
-                 <span class="text-amber-700">M & A</span>
-                 <div class="h-px w-8 bg-stone-700"></div>
-            </div>
-            <p>&copy; 2026 Malik & Annisa Wedding.</p>
+        <footer class="bg-white pt-16 pb-10 text-center border-t border-sky-100 relative">
+            <h2 class="font-cinzel text-3xl text-sky-800 mb-4">Malik & Annisa</h2>
+            <p class="font-playfair text-slate-500 italic text-sm mb-10">Terima kasih atas doa dan restu Anda.</p>
+            
+            <a href="#" class="text-[10px] text-sky-400 uppercase tracking-widest hover:text-sky-600 transition-colors">
+                Heavenly Sky Islamic Edition
+            </a>
         </footer>
+
     </main>
 
-    <!-- AOS Script -->
+    <!-- SCRIPTS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-
-    <!-- SCRIPT UTAMA -->
     <script>
-        // --- ANIMASI PARTIKEL ---
-        function createFireflies() {
-            const container = document.getElementById('fireflies-container');
-            if(!container) return;
-            for(let i=0; i<30; i++) {
-                const div = document.createElement('div');
-                div.classList.add('firefly');
-                div.style.left = Math.random() * 100 + '%';
-                div.style.top = Math.random() * 100 + '%';
-                div.style.animationDuration = (Math.random() * 10 + 5) + 's';
-                div.style.animationDelay = (Math.random() * 5) + 's';
-                container.appendChild(div);
-            }
-        }
-
-        // --- BUKA UNDANGAN & PLAY MUSIC ---
+        // --- OPENING ---
         function openInvitation() {
-            const openingSeq = document.getElementById('opening-sequence');
-            const mainContent = document.getElementById('main-content');
+            const overlay = document.getElementById('opening-overlay');
+            const content = document.getElementById('opening-content');
+            const main = document.getElementById('main-content');
             const audio = document.getElementById('bg-music');
 
-            // Play Music Forcefully
             if(audio) {
-                // Remove restrictions just in case
-                audio.muted = false;
-                audio.volume = 1.0; 
-                
-                var playPromise = audio.play();
-
-                if (playPromise !== undefined) {
-                    playPromise.then(_ => {
-                        console.log("Audio playing");
-                    })
-                    .catch(error => {
-                        console.log("Audio autoplay prevented by browser policy", error);
-                    });
-                }
+                audio.volume = 0.5;
+                audio.play().catch(e => console.log("Audio autoplay prevented"));
             }
 
-            // Animate Transitions
-            if(openingSeq) openingSeq.classList.add('is-open');
+            // Hide content first
+            content.style.opacity = '0';
+            content.style.transform = 'translateY(20px)';
             
+            // Trigger Gate Open
             setTimeout(() => {
-                if(mainContent) {
-                    mainContent.classList.remove('opacity-0');
-                    mainContent.classList.add('opacity-100');
-                }
-            }, 800);
+                overlay.classList.add('is-open');
+            }, 500);
 
+            // Show Main Content
             setTimeout(() => {
-                if(openingSeq) openingSeq.style.display = 'none';
+                main.classList.remove('opacity-0');
                 document.body.classList.remove('modal-open');
-                // Refresh AOS after layout change
-                if (typeof AOS !== 'undefined') AOS.refresh();
-            }, 2500);
+                
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 2600); // Wait for gate transition
+
+                // Init Scroll Animation
+                AOS.init({
+                    duration: 1000,
+                    once: true,
+                    offset: 80,
+                }); 
+            }, 1000);
         }
 
-        // --- RSVP WHATSAPP LOGIC ---
-        function sendToWhatsApp(e) {
-            e.preventDefault();
-
-            const name = document.getElementById('name').value;
-            const status = document.getElementById('status').value;
-            const pax = document.getElementById('pax').value;
-            const message = document.getElementById('message').value;
-
-            // 1. Tampilkan Preview Pesan (Simulasi Lokal)
-            const wishesContainer = document.getElementById('wishes-container');
-            let badgeClass = "bg-stone-700 text-stone-300 border-stone-600";
-            if(status === "Hadir") badgeClass = "bg-green-900/50 text-green-300 border-green-800";
-            if(status === "Tidak Hadir") badgeClass = "bg-red-900/50 text-red-300 border-red-800";
-
-            const newWishHTML = `
-                <div class="bg-stone-800/80 p-4 rounded-lg border-l-2 border-amber-500 animate-[pulse-glow_0.5s]">
-                    <div class="flex justify-between items-start mb-2">
-                        <h4 class="font-bold text-amber-500 font-montserrat text-sm">${name}</h4>
-                        <span class="text-[10px] ${badgeClass} px-2 py-1 rounded border">${status}</span>
-                    </div>
-                    <p class="text-sm text-stone-300 italic">"${message}"</p>
-                    <p class="text-[10px] text-stone-500 mt-2 text-right">Baru saja</p>
-                </div>
-            `;
-            
-            wishesContainer.insertAdjacentHTML('afterbegin', newWishHTML);
-
-            // 2. Kirim ke WhatsApp (Format URL Encode)
-            const phoneNumber = "6285161141114"; 
-            const whatsappText = `Halo Malik & Annisa,%0A%0ASaya ingin konfirmasi kehadiran untuk pernikahan kalian:%0A%0A*Nama:* ${name}%0A*Kehadiran:* ${status}%0A*Jumlah:* ${pax} Orang%0A*Pesan:* ${message}%0A%0ATerima kasih.`;
-            const whatsappURL = `https://wa.me/${phoneNumber}?text=${whatsappText}`;
-            window.open(whatsappURL, '_blank');
-
-            // 3. Reset Form
-            document.getElementById('rsvp-form').reset();
+        // --- MUSIC ---
+        function toggleMusic() {
+            const audio = document.getElementById('bg-music');
+            const icon = document.getElementById('icon-music');
+            if(audio.paused) {
+                audio.play();
+                icon.classList.add('animate-spin-slow');
+                icon.style.opacity = '1';
+            } else {
+                audio.pause();
+                icon.classList.remove('animate-spin-slow');
+                icon.style.opacity = '0.5';
+            }
         }
 
-        // --- COUNTDOWN TIMER ---
+        // --- COUNTDOWN ---
         function initCountdown() {
-            // Target: 10 Maret 2026, 08:00 WIB
-            const targetDate = new Date("2026-03-10T08:00:00+07:00").getTime();
-            const wrapper = document.getElementById('countdown-wrapper');
+            const target = new Date("2026-03-10T08:00:00+07:00").getTime();
+            const el = document.getElementById('countdown');
             
-            if(!wrapper) return;
-            
-            const timer = setInterval(() => {
+            setInterval(() => {
                 const now = new Date().getTime();
-                const diff = targetDate - now;
+                const diff = target - now;
 
-                if(diff < 0) {
-                    clearInterval(timer);
-                    wrapper.innerHTML = "<div class='text-2xl font-bold text-amber-600 animate-pulse'>Acara Sedang Berlangsung / Selesai</div>";
+                if (diff < 0) {
+                    el.innerHTML = "<div class='text-sky-600 font-cinzel text-xl'>Alhamdulillah, Acara Telah Dimulai</div>";
                     return;
                 }
 
@@ -553,102 +583,87 @@
                 const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 const s = Math.floor((diff % (1000 * 60)) / 1000);
 
-                const items = [
-                    {val: d, label: 'Hari'},
-                    {val: h, label: 'Jam'},
-                    {val: m, label: 'Menit'},
-                    {val: s, label: 'Detik'}
-                ];
-
-                wrapper.innerHTML = items.map(item => `
-                    <div class="bg-white/10 backdrop-blur-md p-3 md:p-4 rounded-lg w-20 md:w-24 border border-white/20 shadow-lg">
-                        <div class="text-2xl md:text-3xl font-bold font-cormorant text-stone-800">${item.val}</div>
-                        <div class="text-[8px] md:text-[10px] uppercase font-montserrat font-semibold text-stone-600">${item.label}</div>
+                const boxClass = "flex flex-col items-center justify-center bg-white border border-sky-100 shadow-sm w-16 h-16 md:w-20 md:h-20 rounded-xl";
+                const numClass = "text-xl md:text-2xl font-cinzel text-sky-600";
+                const labelClass = "text-[9px] uppercase tracking-widest text-slate-400 mt-1";
+                
+                el.innerHTML = `
+                    <div class="${boxClass}">
+                        <span class="${numClass}">${d}</span>
+                        <span class="${labelClass}">Hari</span>
                     </div>
-                `).join('');
+                    <div class="${boxClass}">
+                        <span class="${numClass}">${h}</span>
+                        <span class="${labelClass}">Jam</span>
+                    </div>
+                    <div class="${boxClass}">
+                        <span class="${numClass}">${m}</span>
+                        <span class="${labelClass}">Menit</span>
+                    </div>
+                    <div class="${boxClass} border-sky-300 animate-pulse-soft">
+                        <span class="${numClass}">${s}</span>
+                        <span class="${labelClass}">Detik</span>
+                    </div>
+                `;
             }, 1000);
         }
 
-        // --- UTILS ---
-        function toggleMusic() {
-            const audio = document.getElementById('bg-music');
-            const icon = document.getElementById('icon-music');
+        // --- WHATSAPP ---
+        function sendToWhatsApp(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const status = document.getElementById('status').value;
+            const pax = document.getElementById('pax').value;
+            const msg = document.getElementById('message').value;
+
+            const phone = "6285161141114";
+            const text = `*Konfirmasi Kehadiran (Heavenly Sky)*%0A%0ANama: ${name}%0AStatus: ${status}%0AJumlah: ${pax} Orang%0A%0A"${msg}"%0A%0ATerima Kasih.`;
             
-            if(audio.paused) {
-                audio.play();
-                icon.style.opacity = '1';
-            } else {
-                audio.pause();
-                icon.style.opacity = '0.5';
-            }
+            window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
         }
 
-        // --- ROBUST CLIPBOARD COPY FUNCTION ---
-        function copyToClipboard(text, bankName) {
-            // Fallback for iframe/mobile restrictions
-            if (navigator.clipboard && window.isSecureContext) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showSuccessAlert(text, bankName);
-                }).catch(err => {
-                    console.error('Async: Could not copy text: ', err);
-                    fallbackCopyTextToClipboard(text, bankName);
-                });
-            } else {
-                fallbackCopyTextToClipboard(text, bankName);
-            }
-        }
-
-        function fallbackCopyTextToClipboard(text, bankName) {
-            var textArea = document.createElement("textarea");
+        // --- CLIPBOARD ---
+        function copyToClipboard(text, label) {
+            const textArea = document.createElement("textarea");
             textArea.value = text;
-            
-            // Avoid scrolling to bottom
             textArea.style.top = "0";
             textArea.style.left = "0";
             textArea.style.position = "fixed";
-            textArea.style.opacity = "0";
-
             document.body.appendChild(textArea);
             textArea.focus();
             textArea.select();
 
             try {
-                var successful = document.execCommand('copy');
+                const successful = document.execCommand('copy');
                 if (successful) {
-                    showSuccessAlert(text, bankName);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Disalin',
+                        text: `Nomor ${label} berhasil disalin`,
+                        background: '#ffffff',
+                        color: '#0f172a',
+                        confirmButtonColor: '#0ea5e9',
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
                 } else {
-                     alert("Gagal menyalin otomatis. Silakan salin manual: " + text);
+                     Swal.fire({
+                        icon: 'error',
+                        title: 'Gagal',
+                        text: 'Gagal menyalin, silakan salin manual.',
+                         background: '#ffffff',
+                        color: '#0f172a',
+                    });
                 }
             } catch (err) {
                 console.error('Fallback: Oops, unable to copy', err);
-                alert("Gagal menyalin otomatis. Silakan salin manual: " + text);
             }
 
             document.body.removeChild(textArea);
         }
 
-        function showSuccessAlert(text, bankName) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Berhasil Disalin!',
-                text: `Nomor rekening ${bankName} (${text}) telah disalin.`,
-                showConfirmButton: false,
-                timer: 2000,
-                background: '#1c1917',
-                color: '#fff',
-                iconColor: '#b45309'
-            });
-        }
-
-        // --- INIT ON LOAD ---
         document.addEventListener('DOMContentLoaded', () => {
-            createFireflies();
             initCountdown();
-            if (typeof AOS !== 'undefined') AOS.init({ 
-                duration: 1000, 
-                once: true,
-                offset: 50
-            });
         });
     </script>
 </body>
